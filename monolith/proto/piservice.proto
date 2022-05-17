@@ -1,0 +1,21 @@
+
+syntax = "proto3";
+
+package piservice;
+
+option go_package = ".;piservice";
+
+message PiRequest {
+    int32 Accuracy = 1;
+}
+
+message PiResponse {
+    double Pi = 1;
+}
+
+/* сервис CalcPi с методом GeneratePi, который
+получает PiRequest, а возращает PaiResponse */
+
+service CalcPi {
+    rpc GeneratePi(PiRequest) returns (PiResponse) {}
+}
