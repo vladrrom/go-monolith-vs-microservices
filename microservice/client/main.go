@@ -3,8 +3,6 @@ package main
 import (
 	"context"
 	"log"
-	"os"
-	"strconv"
 	"sync"
 	"time"
 
@@ -28,8 +26,9 @@ func main() {
 
 	var err error
 
-	sample := os.Args[1]
-	n, err := strconv.Atoi(sample)
+	//sample := os.Args[1]
+	//n, err := strconv.Atoi(sample)
+	n := 50000
 
 	log.Printf("Entered quantity of goroutines: %v", n)
 
@@ -48,23 +47,27 @@ func main() {
 
 	wg.Add(1)
 
+	s := n / 3
+	a := 2 * n / 3
 	go func(req *ps.PiRequest) {
 		defer wg.Done()
 		if resp2, err = client2.GeneratePi(context.Background(), req); err != nil {
 			log.Fatalf("Could not get answer: %v", err)
 		}
 
-	}(&ps.PiRequest{Start: int32(n / 3), Accuracy: int32((2 / 3) * n)})
+	}(&ps.PiRequest{Start: int32(s), Accuracy: int32(a)})
 
 	wg.Add(1)
 
+	s = n / 3
+	a = 2 * n / 3
 	go func(req *ps.PiRequest) {
 		defer wg.Done()
 		if resp3, err = client3.GeneratePi(context.Background(), req); err != nil {
 			log.Fatalf("Could not get answer: %v", err)
 		}
 
-	}(&ps.PiRequest{Start: int32((2 / 3) * n), Accuracy: int32(n)})
+	}(&ps.PiRequest{Start: int32(s), Accuracy: int32(a)})
 
 	wg.Wait()
 

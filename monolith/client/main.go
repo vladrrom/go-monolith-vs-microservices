@@ -3,8 +3,6 @@ package main
 import (
 	"context"
 	"log"
-	"os"
-	"strconv"
 	"time"
 
 	ps "netangels/piservice/proto"
@@ -18,8 +16,10 @@ func main() {
 	start := time.Now()
 	client := ps.NewCalcPiClient(conn)
 
-	sample := os.Args[1]
-	n, err := strconv.Atoi(sample)
+	//sample := os.Args[1]
+	//n, err := strconv.Atoi(sample)
+
+	n := 50000
 
 	log.Printf("Entered quantity of goroutines: %v", n)
 
